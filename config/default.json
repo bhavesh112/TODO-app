@@ -1,4 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://bhavesh12:bhavesh12@cluster0-bbyv2.mongodb.net/todoApp?retryWrites=true&w=majority",
-  "jwtSecret": "mySecretToken"
-}
