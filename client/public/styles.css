@@ -56,6 +56,7 @@ footer p {
   width: 240px;
   margin: 16px;
   float: left;
+  animation: moveInLeft 1s ease-in;
 }
 .note h1 {
   font-size: 1.1em;
@@ -300,8 +301,30 @@ button {
 
 .edit-note{
   z-index: 3;
-  position: fixed;
-  left:27.25rem;
+  margin : 0 auto;
+  left:26.7rem;
+  widows: 240px;
   top:5.5rem;
-  
+  animation: moveInLeft 1s ease-in;
 }
+
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem); }
+  80% {
+    transform: translateX(2rem); }
+  100% {
+    opacity: 1;
+    transform: translateX(0); } }
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem); }
+  80% {
+    transform: translateX(-2rem); }
+  100% {
+    opacity: 1;
+    transform: translateX(0); } }

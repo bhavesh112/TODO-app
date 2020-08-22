@@ -9,8 +9,9 @@ import setAuthToken from "../utils/setAuthToken";
 import Fab from "@material-ui/core/Fab";
 import Zoom from "@material-ui/core/Zoom";
 import AddIcon from "@material-ui/icons/Add";
+import { toggleEdit } from "../actions/edit";
 
-const Note = ({ removeNote, getNotes, modifyNote, notes }) => {
+const Note = ({ removeNote, getNotes, modifyNote, notes, toggleEdit }) => {
   useEffect(() => {
     setAuthToken(localStorage.token);
     const get = async () => {
@@ -24,7 +25,7 @@ const Note = ({ removeNote, getNotes, modifyNote, notes }) => {
     title: "",
     text: "",
   });
-  const [id , setId]=useState("");
+  const [id, setId] = useState("");
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -36,29 +37,31 @@ const Note = ({ removeNote, getNotes, modifyNote, notes }) => {
     });
   };
 
-  const submitNote=(event)=> {
-   setEditMode(false);
-   const _id = id;
-   modifyNote(note.title,note.text,_id); 
-   setNote({
+  const submitNote = (event) => {
+    setEditMode(false);
+    toggleEdit(editMode);
+    const _id = id;
+    modifyNote(note.title, note.text, _id);
+    setNote({
       title: "",
-      text: ""
+      text: "",
     });
 
     event.preventDefault();
-  }
+  };
   const onDelete = (event) => {
     removeNote(event.currentTarget.parentNode.getAttribute("data-key"));
   };
   const onEdit = (event) => {
     setEditMode(true);
-    const key=event.currentTarget.parentNode.getAttribute("data-key");
+    toggleEdit(editMode);
+    const key = event.currentTarget.parentNode.getAttribute("data-key");
     setId(key);
-    const editNote=notes.find((item)=>item._id===key);
-    const {title , text} = editNote;
+    const editNote = notes.find((item) => item._id === key);
+    const { title, text } = editNote;
     setNote({
       title,
-      text
+      text,
     });
     event.preventDefault();
   };
@@ -83,11 +86,9 @@ const Note = ({ removeNote, getNotes, modifyNote, notes }) => {
   }
   return (
     <Fragment>
-      {list}
       {editMode && (
         <div className="edit-note">
           <form className="create-note ">
-            
             <input
               name="title"
               onChange={handleChange}
@@ -95,7 +96,7 @@ const Note = ({ removeNote, getNotes, modifyNote, notes }) => {
               placeholder="Title"
               rows={1}
             />
-            
+
             <textarea
               name="text"
               onChange={handleChange}
@@ -111,6 +112,7 @@ const Note = ({ removeNote, getNotes, modifyNote, notes }) => {
           </form>
         </div>
       )}
+      {list}
     </Fragment>
   );
 };
@@ -129,4 +131,5 @@ export default connect(mapStateToProps, {
   removeNote,
   modifyNote,
   getNotes,
+  toggleEdit,
 })(Note);
